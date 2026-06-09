@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hostinger 백업 · 접근 · 다운로드 · 복원</title>
+<style>
+  :root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--line:#e1e7f2;--txt:#1c2335;--mut:#6b7592;
+    --acc:#3b5bdb;--good:#16a34a;--blue:#2563eb;--amber:#d97706;--bad:#dc2626;--warn:#b45309;--chrome:#eef1f7;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI','Malgun Gothic',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:26px;line-height:1.6}
+  .wrap{max-width:880px;margin:0 auto}
+  header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px}
+  .brand{display:flex;align-items:center;gap:13px}
+  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#673de6,#9b6cff);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:20px}
+  h1{font-size:21px}.sub{color:var(--mut);font-size:13px;margin:2px 0 18px}
+  .lang a{font-size:12.5px;text-decoration:none;color:var(--acc);border:1px solid var(--line);padding:6px 11px;border-radius:8px;background:var(--panel)}
+  .lang a.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,30,60,.05)}
+  .card.acc{border-top:4px solid var(--blue)} .card.dl{border-top:4px solid var(--good)} .card.rs{border-top:4px solid var(--amber)}
+  h2{font-size:18px;display:flex;align-items:center;gap:9px;margin-bottom:3px}
+  h2.acc{color:var(--blue)} h2.dl{color:var(--good)} h2.rs{color:var(--amber)}
+  .h2sub{color:var(--mut);font-size:12.5px;margin-bottom:18px}
+  ol{list-style:none;counter-reset:s;padding:0}
+  ol li{counter-increment:s;position:relative;padding:11px 0 11px 44px;border-bottom:1px dashed var(--line)}
+  ol li:last-child{border:0}
+  ol li::before{content:counter(s);position:absolute;left:0;top:10px;width:28px;height:28px;border-radius:8px;
+    color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;background:var(--clr)}
+  .acc ol li::before{background:var(--blue)} .dl ol li::before{background:var(--good)} .rs ol li::before{background:var(--amber)}
+  .path{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;font-size:12.5px}
+  .crumb{background:#eef2fa;border:1px solid var(--line);border-radius:7px;padding:3px 9px;font-weight:600;color:#33406a}
+  .arr{color:var(--mut);font-weight:700}
+  code{background:#eef2fa;padding:2px 7px;border-radius:6px;font-size:12.5px}
+  .mock{margin:14px 0 4px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .bar{background:var(--chrome);padding:8px 12px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--line)}
+  .d{width:11px;height:11px;border-radius:50%}
+  .u{flex:1;background:#fff;border:1px solid var(--line);border-radius:7px;font-size:11.5px;color:var(--mut);padding:4px 10px;margin-left:8px}
+  .body{padding:16px}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tile{border:1px solid var(--line);border-radius:11px;padding:14px;background:#fbfcfe}
+  .tile .t{font-weight:700;font-size:13.5px;color:#33406a;display:flex;align-items:center;gap:7px}
+  .tile .m{font-size:11.5px;color:var(--mut);margin:5px 0 11px}
+  .sel{display:inline-block;background:var(--blue);color:#fff;font-weight:700;font-size:12.5px;padding:7px 15px;border-radius:8px}
+  .menu{display:flex;flex-direction:column;gap:2px;font-size:12.5px}
+  .mi{padding:7px 10px;border-radius:7px;color:#33406a}
+  .mi.on{background:#eaf0ff;font-weight:700;color:#1d4ed8}
+  .tip{background:#fffbeb;border:1px solid #fde68a;color:var(--warn);border-radius:11px;padding:12px 15px;font-size:13px;margin-top:14px}
+  .tip b{color:#92400e}
+  .note{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;border-radius:11px;padding:12px 15px;font-size:13px;margin-top:6px}
+  footer{color:var(--mut);font-size:12px;text-align:center;margin-top:8px}
+</style></head><body><div class="wrap">
+  <header><div class="brand"><div class="logo">H</div>
+    <div><h1>Hostinger 백업 — 접근 · 다운로드 · 복원</h1>
+      <div class="sub">서버 자동 백업을 찾아 파일이나 데이터베이스를 되살리는 방법</div></div></div>
+    <div class="lang"><a href="backup_guide_en.html">🇺🇸 English</a> <a class="on">한국어</a></div>
+  </header>
+
+  <div class="card acc">
+    <h2 class="acc">📂 1부 · 백업 위치 찾기</h2>
+    <div class="h2sub">Hostinger가 계정을 자동 백업합니다 — 여는 위치는 여기</div>
+    <ol>
+      <li><b>hPanel 로그인</b> 후 <b>Websites</b> → 사이트의 <b>Dashboard</b> 로 들어갑니다.</li>
+      <li>왼쪽 메뉴에서 <b>Files</b> → <b>Backups</b> 를 클릭합니다.<span class="path">
+        <span class="crumb">Dashboard</span><span class="arr">›</span>
+        <span class="crumb">Files</span><span class="arr">›</span><span class="crumb">Backups</span></span></li>
+      <li>백업은 두 종류입니다: <b>Files backups</b>(파일)와 <b>Database backups</b>(DB).
+        <div class="mock"><div class="bar"><span class="d" style="background:#ff5f57"></span>
+          <span class="d" style="background:#febc2e"></span><span class="d" style="background:#28c840"></span>
+          <span class="u">hpanel.hostinger.com › Backups</span></div>
+          <div class="body"><div class="tiles">
+            <div class="tile"><div class="t">🗂️ Files backups</div>
+              <div class="m">웹사이트 파일 (HTML, PHP, 이미지…)</div><span class="sel">Select</span></div>
+            <div class="tile"><div class="t">🗄️ Database backups</div>
+              <div class="m">MySQL 데이터베이스 (.sql)</div><span class="sel">Select</span></div>
+          </div></div></div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="card dl">
+    <h2 class="dl">⬇️ 2부 · 백업 다운로드</h2>
+    <div class="h2sub">내 컴퓨터에 사본을 보관하세요</div>
+    <ol>
+      <li><b>Files backups</b> 에서 <b>Select</b> 을 누릅니다.</li>
+      <li>원하는 <b>날짜</b>(보통 최신)를 고르고 → <b>Next step</b> 을 누릅니다.</li>
+      <li><b>Download all files</b> 를 누릅니다. <code>.tar.gz</code> 형식으로 받아집니다.</li>
+      <li>DB는 <b>Database backups</b> 를 쓰며 <code>.sql.gz</code> 형식으로 받아집니다.</li>
+    </ol>
+    <div class="note">💡 전체 대신 특정 폴더·파일 하나만 골라 받을 수도 있습니다.</div>
+  </div>
+
+  <div class="card rs">
+    <h2 class="rs">♻️ 3부 · 백업 복원</h2>
+    <div class="h2sub">운영 중인 사이트를 이전 시점으로 되돌리기</div>
+    <ol>
+      <li><b>파일:</b> Files → Backups → <b>Files backups</b> → <b>Select</b> → 날짜 선택 → <b>Next step</b>.</li>
+      <li>필요한 파일·폴더를 고르고 <b>Restore files</b> 를 누릅니다.</li>
+      <li><b>DB:</b> <b>Database backups</b> → 날짜 선택 → <b>Show databases</b>.</li>
+      <li>데이터베이스를 선택하고 <b>Restore</b> 를 누른 뒤 완료까지 기다립니다.</li>
+    </ol>
+    <div class="tip">⚠️ <b>복원은 현재 파일/DB를 덮어씁니다.</b> 되돌릴 수 있도록 지금 상태를 먼저 다운로드해 두세요.</div>
+  </div>
+
+  <div class="card acc">
+    <h2 class="acc">⏳ 참고 · 백업 보관 기간</h2>
+    <div class="h2sub">보관 기간은 호스팅 플랜에 따라 다릅니다</div>
+    <ol>
+      <li><b>주간 백업</b>은 <b>6주</b> 보관됩니다.</li>
+      <li><b>일간 백업</b>(상위 플랜)은 <b>7일</b> 보관됩니다.</li>
+      <li>이후 오래된 백업은 <b>영구 삭제</b>되므로 중요한 백업은 제때 받아두세요.</li>
+    </ol>
+  </div>
+
+  <footer>Workidoki · 사내 가이드 · Files → Backups → Select → 날짜 → 다운로드 / 복원</footer>
+</div></body></html>

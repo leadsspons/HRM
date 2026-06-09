@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emirard HRM · Admin (Chat Rooms & Employees)</title>
+<style>
+  :root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--panel2:#eef2fa;--line:#e1e7f2;
+    --txt:#1c2335;--mut:#6b7592;--acc:#3b5bdb;--good:#10b981;--bad:#ef4444;--gold:#d99e00;
+    --rooms:#2563eb;--people:#7c3aed;--export:#0f9d6b;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:24px}
+  .wrap{max-width:1080px;margin:0 auto}
+  header{display:flex;align-items:center;gap:13px;margin-bottom:6px}
+  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#3b5bdb,#8b5cf6);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:19px}
+  h1{font-size:20px}.sub{color:var(--mut);font-size:13px;margin:2px 0 18px}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 1px 3px rgba(20,30,60,.04)}
+  .card.rooms{border-top:3px solid var(--rooms)}
+  .card.people{border-top:3px solid var(--people)}
+  h2{font-size:16px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  h2 .ic{font-size:18px}
+  .h2sub{font-size:12px;color:var(--mut);margin-bottom:10px}
+  h2.rooms{color:var(--rooms)} h2.people{color:var(--people)}
+  label{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--mut);margin:11px 0 4px;font-weight:600}
+  .req{color:var(--bad);font-weight:700}
+  input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-size:13px;background:#fbfcfe;color:var(--txt)}
+  input:focus{outline:none;border-color:var(--acc)}
+  .btn{margin-top:14px;padding:9px 15px;border:0;border-radius:9px;color:#fff;font-weight:600;font-size:13px;cursor:pointer}
+  .btn.rooms{background:var(--rooms)} .btn.people{background:var(--people)}
+  .btn.sec{background:var(--panel2);color:var(--txt);border:1px solid var(--line)}
+  .btn.gold{background:var(--export)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:14px}
+  th,td{text-align:left;padding:8px 7px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-size:11.5px;font-weight:600}
+  .del{color:var(--bad);cursor:pointer;font-size:12px;border:1px solid #f6c9c9;border-radius:6px;padding:2px 8px;background:#fff}
+  .bar{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 4px}
+  .pill{font-size:12px;color:var(--mut);background:var(--panel);border:1px solid var(--line);padding:7px 12px;border-radius:999px}
+  .hint{font-size:12px;color:var(--mut);line-height:1.6;margin-top:10px;background:#f0f4ff;border:1px solid #d9e3ff;border-radius:10px;padding:11px 13px}
+  code{background:var(--panel2);padding:1px 5px;border-radius:5px;font-size:12px}
+  .help{display:inline-flex;align-items:center;gap:7px;margin-top:8px;text-decoration:none;
+    font-size:12.5px;color:var(--rooms);background:#eff4ff;border:1px solid #d4e1ff;
+    padding:7px 11px;border-radius:9px;font-weight:600}
+  .help:hover{background:#e2ecff}
+  .qmark{width:18px;height:18px;border-radius:50%;background:var(--rooms);color:#fff;
+    font-weight:800;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
+  .help-ko{font-size:12px;color:var(--mut);text-decoration:none;margin-left:8px;border-bottom:1px dotted var(--mut)}
+  @media(max-width:820px){.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px"><a href="dashboard.html" style="font-size:12px;text-decoration:none;padding:6px 11px;border-radius:8px;color:#6b7592;background:#fff;border:1px solid #e1e7f2">🏆 Challenge Leaderboard</a><a href="employee_tracker.html" style="font-size:12px;text-decoration:none;padding:6px 11px;border-radius:8px;color:#6b7592;background:#fff;border:1px solid #e1e7f2">📋 Employee Tracker</a><a href="user_challenge.html" style="font-size:12px;text-decoration:none;padding:6px 11px;border-radius:8px;color:#6b7592;background:#fff;border:1px solid #e1e7f2">🔥 Team Challenge</a><a href="admin.html" style="font-size:12px;text-decoration:none;padding:6px 11px;border-radius:8px;color:#fff;background:#3b5bdb;border:1px solid #3b5bdb">⚙️ Admin Console</a></nav>
+  <header><div class="logo">E</div>
+    <div><h1>HRM Admin Console</h1>
+    <div class="sub">Register chat rooms &amp; employees → export a seed file to load into the sheet</div></div>
+  </header>
+
+  <div class="cols">
+    <div class="card rooms">
+      <h2 class="rooms"><span class="ic">💬</span> Chat Rooms</h2>
+      <div class="h2sub">Add each Telegram group the bot will monitor</div>
+      <label>🏷️ Display name <span class="req">*</span></label>
+      <input id="gName" placeholder="e.g. Growth Team Room">
+      <label>🔗 Invite URL <span style="color:var(--mut)">(optional)</span></label>
+      <input id="gUrl" placeholder="https://t.me/+abc...">
+      <label>🔑 Bot token <span style="color:var(--mut)">(optional · blank = default bot)</span></label>
+      <input id="gTok" placeholder="123456:ABC...">
+      <div>
+        <a class="help" href="guide_en.html" target="_blank">
+          <span class="qmark">?</span> How to get the Bot token and Invite URL?</a>
+        <a class="help-ko" href="guide_ko.html" target="_blank">한국어</a>
+      </div>
+      <button class="btn rooms" onclick="addGroup()">➕ Add chat room</button>
+      <table><thead><tr><th>Name</th><th>URL</th><th>Token</th><th></th></tr></thead><tbody id="gBody"></tbody></table>
+      <div class="hint">🆔 The <b>chat_id</b> is filled automatically once the bot is added to the group.
+        You can also run <code>/addgroup</code> inside the group to register it instantly.</div>
+    </div>
+
+    <div class="card people">
+      <h2 class="people"><span class="ic">👥</span> Employees</h2>
+      <div class="h2sub">Add the staff who receive and complete tasks</div>
+      <label>🆔 Telegram username (no @) <span class="req">*</span></label>
+      <input id="mUser" placeholder="e.g. sara_k">
+      <label>🧑 Display name</label>
+      <input id="mName" placeholder="Sara Kim">
+      <label>🏢 Team / Department</label>
+      <input id="mTeam" placeholder="Growth">
+      <button class="btn people" onclick="addMember()">➕ Add employee</button>
+      <table><thead><tr><th>@username</th><th>Name</th><th>Team</th><th></th></tr></thead><tbody id="mBody"></tbody></table>
+      <div class="hint">⌨️ In the admin chat you can also use
+        <code>/addmember @sara_k "Sara Kim" Growth</code>.</div>
+    </div>
+  </div>
+
+  <div class="bar">
+    <button class="btn gold" onclick="exportJson()">⬇️ Export seed.json</button>
+    <button class="btn sec" onclick="copyCsv('groups')">📋 Copy rooms CSV</button>
+    <button class="btn sec" onclick="copyCsv('members')">📋 Copy employees CSV</button>
+    <button class="btn sec" onclick="clearAll()">🗑️ Clear all</button>
+    <span class="pill" id="stat">Saved locally</span>
+  </div>
+  <div class="hint" style="max-width:none">
+    📥 Put the exported <code>seed.json</code> in the <code>emirard-hrm-bot</code> folder and run
+    <code>python seed.py</code> to load everything into the Google Sheet's <b>Groups</b> &amp; <b>Members</b> tabs.
+    Your entries are auto-saved in this browser and survive a refresh.
+  </div>
+</div>
+
+<script>
+const KEY='emirard_hrm_seed';
+let data=JSON.parse(localStorage.getItem(KEY)||'{"groups":[],"members":[]}');
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render();}
+function render(){
+  $('gBody').innerHTML=data.groups.map((g,i)=>`<tr><td>${g.name}</td>
+    <td style="color:var(--mut);max-width:120px;overflow:hidden;text-overflow:ellipsis">${g.invite_url||'–'}</td>
+    <td style="color:var(--mut)">${g.bot_token?'●●●':'default'}</td>
+    <td><span class="del" onclick="rm('groups',${i})">Delete</span></td></tr>`).join('');
+  $('mBody').innerHTML=data.members.map((m,i)=>`<tr><td>@${m.username}</td>
+    <td>${m.display_name||''}</td><td style="color:var(--mut)">${m.team||''}</td>
+    <td><span class="del" onclick="rm('members',${i})">Delete</span></td></tr>`).join('');
+  $('stat').textContent=`Rooms ${data.groups.length} · Employees ${data.members.length}`;
+}
+function addGroup(){
+  const name=$('gName').value.trim(); if(!name)return alert('Please enter a display name');
+  data.groups.push({name,invite_url:$('gUrl').value.trim(),bot_token:$('gTok').value.trim()});
+  $('gName').value=$('gUrl').value=$('gTok').value=''; save();
+}
+function addMember(){
+  const u=$('mUser').value.trim().replace(/^@/,''); if(!u)return alert('Please enter a username');
+  data.members.push({username:u,display_name:$('mName').value.trim(),team:$('mTeam').value.trim()});
+  $('mUser').value=$('mName').value=$('mTeam').value=''; save();
+}
+function rm(k,i){data[k].splice(i,1);save();}
+function clearAll(){if(confirm('Clear everything?')){data={groups:[],members:[]};save();}}
+function exportJson(){
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='seed.json';a.click();
+}
+function copyCsv(k){
+  let csv;
+  if(k==='groups')csv='name,invite_url,bot_token\n'+data.groups.map(g=>`${g.name},${g.invite_url||''},${g.bot_token||''}`).join('\n');
+  else csv='username,display_name,team\n'+data.members.map(m=>`${m.username},${m.display_name||''},${m.team||''}`).join('\n');
+  navigator.clipboard.writeText(csv).then(()=>{$('stat').textContent='CSV copied ✓';});
+}
+render();
+</script>
+</body>
+</html>

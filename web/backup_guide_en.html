@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hostinger Backups · Access, Download & Restore</title>
+<style>
+  :root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--line:#e1e7f2;--txt:#1c2335;--mut:#6b7592;
+    --acc:#3b5bdb;--good:#16a34a;--blue:#2563eb;--amber:#d97706;--bad:#dc2626;--warn:#b45309;--chrome:#eef1f7;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI','Malgun Gothic',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:26px;line-height:1.6}
+  .wrap{max-width:880px;margin:0 auto}
+  header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px}
+  .brand{display:flex;align-items:center;gap:13px}
+  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#673de6,#9b6cff);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:20px}
+  h1{font-size:21px}.sub{color:var(--mut);font-size:13px;margin:2px 0 18px}
+  .lang a{font-size:12.5px;text-decoration:none;color:var(--acc);border:1px solid var(--line);padding:6px 11px;border-radius:8px;background:var(--panel)}
+  .lang a.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,30,60,.05)}
+  .card.acc{border-top:4px solid var(--blue)} .card.dl{border-top:4px solid var(--good)} .card.rs{border-top:4px solid var(--amber)}
+  h2{font-size:18px;display:flex;align-items:center;gap:9px;margin-bottom:3px}
+  h2.acc{color:var(--blue)} h2.dl{color:var(--good)} h2.rs{color:var(--amber)}
+  .h2sub{color:var(--mut);font-size:12.5px;margin-bottom:18px}
+  ol{list-style:none;counter-reset:s;padding:0}
+  ol li{counter-increment:s;position:relative;padding:11px 0 11px 44px;border-bottom:1px dashed var(--line)}
+  ol li:last-child{border:0}
+  ol li::before{content:counter(s);position:absolute;left:0;top:10px;width:28px;height:28px;border-radius:8px;
+    color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;background:var(--clr)}
+  .acc ol li::before{background:var(--blue)} .dl ol li::before{background:var(--good)} .rs ol li::before{background:var(--amber)}
+  .path{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;font-size:12.5px}
+  .crumb{background:#eef2fa;border:1px solid var(--line);border-radius:7px;padding:3px 9px;font-weight:600;color:#33406a}
+  .arr{color:var(--mut);font-weight:700}
+  code{background:#eef2fa;padding:2px 7px;border-radius:6px;font-size:12.5px}
+  .mock{margin:14px 0 4px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .bar{background:var(--chrome);padding:8px 12px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--line)}
+  .d{width:11px;height:11px;border-radius:50%}
+  .u{flex:1;background:#fff;border:1px solid var(--line);border-radius:7px;font-size:11.5px;color:var(--mut);padding:4px 10px;margin-left:8px}
+  .body{padding:16px}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tile{border:1px solid var(--line);border-radius:11px;padding:14px;background:#fbfcfe}
+  .tile .t{font-weight:700;font-size:13.5px;color:#33406a;display:flex;align-items:center;gap:7px}
+  .tile .m{font-size:11.5px;color:var(--mut);margin:5px 0 11px}
+  .sel{display:inline-block;background:var(--blue);color:#fff;font-weight:700;font-size:12.5px;padding:7px 15px;border-radius:8px}
+  .menu{display:flex;flex-direction:column;gap:2px;font-size:12.5px}
+  .mi{padding:7px 10px;border-radius:7px;color:#33406a}
+  .mi.on{background:#eaf0ff;font-weight:700;color:#1d4ed8}
+  .tip{background:#fffbeb;border:1px solid #fde68a;color:var(--warn);border-radius:11px;padding:12px 15px;font-size:13px;margin-top:14px}
+  .tip b{color:#92400e}
+  .note{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;border-radius:11px;padding:12px 15px;font-size:13px;margin-top:6px}
+  footer{color:var(--mut);font-size:12px;text-align:center;margin-top:8px}
+</style></head><body><div class="wrap">
+  <header><div class="brand"><div class="logo">H</div>
+    <div><h1>Hostinger Backups — Access, Download &amp; Restore</h1>
+      <div class="sub">Find your server's automatic backups and get your files or database back</div></div></div>
+    <div class="lang"><a class="on">EN</a> <a href="backup_guide_ko.html">🇰🇷 한국어</a></div>
+  </header>
+
+  <div class="card acc">
+    <h2 class="acc">📂 Part 1 · Find your backups</h2>
+    <div class="h2sub">Hostinger automatically backs up your account — here's where to open it</div>
+    <ol>
+      <li><b>Log in to hPanel</b> and open <b>Websites</b> → your site's <b>Dashboard</b>.</li>
+      <li>In the left menu, click <b>Files</b> → <b>Backups</b>.<span class="path">
+        <span class="crumb">Dashboard</span><span class="arr">›</span>
+        <span class="crumb">Files</span><span class="arr">›</span><span class="crumb">Backups</span></span></li>
+      <li>You'll see two kinds of backup: <b>Files backups</b> and <b>Database backups</b>.
+        <div class="mock"><div class="bar"><span class="d" style="background:#ff5f57"></span>
+          <span class="d" style="background:#febc2e"></span><span class="d" style="background:#28c840"></span>
+          <span class="u">hpanel.hostinger.com › Backups</span></div>
+          <div class="body"><div class="tiles">
+            <div class="tile"><div class="t">🗂️ Files backups</div>
+              <div class="m">Your website files (HTML, PHP, images…)</div><span class="sel">Select</span></div>
+            <div class="tile"><div class="t">🗄️ Database backups</div>
+              <div class="m">Your MySQL databases (.sql)</div><span class="sel">Select</span></div>
+          </div></div></div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="card dl">
+    <h2 class="dl">⬇️ Part 2 · Download a backup</h2>
+    <div class="h2sub">Keep an offline copy on your computer</div>
+    <ol>
+      <li>Under <b>Files backups</b>, click <b>Select</b>.</li>
+      <li>Pick the <b>date</b> you want (usually the most recent) → click <b>Next step</b>.</li>
+      <li>Click <b>Download all files</b>. The archive downloads as <code>.tar.gz</code>.</li>
+      <li>For a database, use <b>Database backups</b> instead — it downloads as <code>.sql.gz</code>.</li>
+    </ol>
+    <div class="note">💡 You can also browse the backup and download just one folder or file instead of everything.</div>
+  </div>
+
+  <div class="card rs">
+    <h2 class="rs">♻️ Part 3 · Restore a backup</h2>
+    <div class="h2sub">Roll your live site back to an earlier version</div>
+    <ol>
+      <li><b>Files:</b> Files → Backups → <b>Files backups</b> → <b>Select</b> → choose a date → <b>Next step</b>.</li>
+      <li>Pick the file or folder you need and click <b>Restore files</b>.</li>
+      <li><b>Database:</b> open <b>Database backups</b> → choose a date → <b>Show databases</b>.</li>
+      <li>Select the database and click <b>Restore</b>, then wait until it finishes.</li>
+    </ol>
+    <div class="tip">⚠️ <b>Restoring overwrites your current files/database.</b> Download a copy of the present state first, so you can go back if needed.</div>
+  </div>
+
+  <div class="card acc">
+    <h2 class="acc">⏳ Good to know · How long backups are kept</h2>
+    <div class="h2sub">Retention depends on your hosting plan</div>
+    <ol>
+      <li><b>Weekly backups</b> are kept for <b>6 weeks</b>.</li>
+      <li><b>Daily backups</b> (higher plans) are kept for <b>7 days</b>.</li>
+      <li>After that, older backups are <b>permanently removed</b> — so download important ones in time.</li>
+    </ol>
+  </div>
+
+  <footer>Workidoki · Internal guide · Files → Backups → Select → date → Download / Restore</footer>
+</div></body></html>

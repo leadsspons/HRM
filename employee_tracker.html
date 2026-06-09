@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emirard HRM · Employee Task Tracker</title>
+<style>
+  :root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--panel2:#eef2fa;--line:#e1e7f2;
+    --txt:#1c2335;--mut:#6b7592;--acc:#3b5bdb;
+    --good:#10b981;--late:#f59e0b;--bad:#ef4444;--open:#94a3b8;--rev:#d99e00;--blue:#3b82f6;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:22px}
+  .wrap{max-width:1240px;margin:0 auto}
+  nav{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+  nav a{font-size:12px;text-decoration:none;color:var(--mut);background:var(--panel);
+    border:1px solid var(--line);padding:6px 11px;border-radius:8px}
+  nav a.on{color:#fff;background:var(--acc);border-color:var(--acc)}
+  header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#3b5bdb,#8b5cf6);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:19px}
+  h1{font-size:20px}.sub{color:var(--mut);font-size:12.5px;margin-top:2px}
+  .pill{font-size:12px;color:var(--mut);background:var(--panel);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:16px;box-shadow:0 1px 3px rgba(20,30,60,.04)}
+  .kpi .lbl{font-size:12px;margin-bottom:7px;font-weight:600}
+  .kpi .val{font-size:26px;font-weight:800}.kpi .val small{font-size:14px;color:var(--mut)}
+  h2{font-size:15.5px;display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  h2.cal{color:var(--blue)} h2.det{color:var(--good)}
+  .h2sub{color:var(--mut);font-size:12px;margin-bottom:14px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:center}
+  th:first-child,td:first-child{text-align:left}
+  th{color:var(--mut);font-size:11.5px;font-weight:600}
+  .emp{font-weight:600;text-align:left}
+  .cell{display:inline-flex;flex-direction:column;align-items:center;min-width:42px;padding:5px 7px;border-radius:8px;font-size:12px;font-weight:700}
+  .cell small{font-weight:500;font-size:10px;opacity:.8}
+  .c-good{background:rgba(16,185,129,.15);color:#0a7f5d}
+  .c-late{background:rgba(245,158,11,.18);color:#9a6700}
+  .c-bad{background:rgba(239,68,68,.15);color:#b42318}
+  .c-open{background:rgba(148,163,184,.18);color:#475569}
+  .c-none{color:#cbd5e1}
+  .tot{font-weight:800}
+  .days{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+  .day{font-size:12.5px;border:1px solid var(--line);background:var(--panel2);padding:7px 12px;border-radius:9px;cursor:pointer}
+  .day.on{background:var(--good);color:#fff;border-color:var(--good)}
+  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;display:inline-block}
+  .b-good{background:rgba(16,185,129,.15);color:#0a7f5d}
+  .b-late{background:rgba(245,158,11,.18);color:#9a6700}
+  .b-bad{background:rgba(239,68,68,.15);color:#b42318}
+  .b-open{background:rgba(148,163,184,.18);color:#475569}
+  .b-rev{background:rgba(217,158,0,.18);color:#92670b}
+  .due{font-variant-numeric:tabular-nums;font-weight:600}
+  .muted{color:var(--mut)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="dashboard.html">🏆 Challenge Leaderboard</a>
+    <a href="employee_tracker.html" class="on">📋 Employee Tracker</a>
+    <a href="user_challenge.html">🔥 Team Challenge</a>
+    <a href="admin.html">⚙️ Admin Console</a>
+  </nav>
+  <header>
+    <div class="brand"><div class="logo">E</div>
+      <div><h1>Employee Task Tracker</h1>
+        <div class="sub">Per-employee, per-day — due times, on-time status, task load</div></div></div>
+    <div class="pill" id="srcPill">● checking…</div>
+  </header>
+
+  <div class="kpis">
+    <div class="card kpi"><div class="lbl" style="color:var(--acc)">👥 Employees</div><div class="val" id="kEmp">–</div></div>
+    <div class="card kpi"><div class="lbl" style="color:var(--blue)">📌 Due today</div><div class="val" id="kDue">–</div></div>
+    <div class="card kpi"><div class="lbl" style="color:var(--good)">⏱️ On-time today</div><div class="val" id="kOnt">–<small>%</small></div></div>
+    <div class="card kpi"><div class="lbl" style="color:var(--open)">📭 Open now</div><div class="val" id="kOpen">–</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h2 class="cal">📅 Weekly Load &amp; Due-time Tracker</h2>
+    <div class="h2sub">Each cell = completed / assigned that day · color shows on-time health · hover for due times</div>
+    <div style="overflow-x:auto"><table id="matrix"></table></div>
+    <div class="days" style="margin-top:12px">
+      <span class="badge b-good">on-time</span><span class="badge b-late">late</span>
+      <span class="badge b-bad">missed</span><span class="badge b-open">open / pending</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="det">🗂️ Daily Detail</h2>
+    <div class="h2sub">Pick a day to see every task, its due time and current status</div>
+    <div class="days" id="dayBtns"></div>
+    <table id="detail"></table>
+  </div>
+</div>
+
+<script>
+const CONFIG={ sheetId:"", tab:"Tasks" };
+const DOW=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+// ---- sample tasks (week of Mon 2026-06-08) ----
+function T(assignee,desc,day,dueH,dueM,status,doneH){
+  const d=`2026-06-${(7+day).toString().padStart(2,'0')}`; // day1=08
+  const created=`${d}T09:00:00`;
+  const due=`${d}T${String(dueH).padStart(2,'0')}:${String(dueM).padStart(2,'0')}:00`;
+  const completed=(status==='done')?`${d}T${String(doneH).padStart(2,'0')}:00:00`:'';
+  return {assignee,description:desc,created_at:created,due_at:due,status,completed_at:completed};
+}
+const SAMPLE=[
+  T("Sara K.","Ad creatives (3 variants)",1,18,0,"done",16),
+  T("Sara K.","Landing page copy review",1,14,0,"done",13),
+  T("Sara K.","Weekly KPI deck",2,17,0,"done",15),
+  T("Sara K.","Partner outreach list",3,12,0,"done",11),
+  T("Sara K.","Campaign QA",4,18,0,"in_progress",0),
+  T("John P.","Server migration plan",1,18,0,"done",20),  // late
+  T("John P.","On-call handover doc",2,12,0,"done",11),
+  T("John P.","DB backup verification",2,18,0,"done",17),
+  T("John P.","Incident postmortem",3,16,0,"pending_review",0),
+  T("John P.","Cost report",4,17,0,"open",0),
+  T("Mike R.","Demo for Acme",1,15,0,"done",14),
+  T("Mike R.","CRM cleanup",2,18,0,"missed",0),
+  T("Mike R.","Proposal v2",3,18,0,"done",17),
+  T("Mike R.","Pipeline review",4,13,0,"done",12),
+  T("Lina T.","Brand kit update",1,17,0,"done",16),
+  T("Lina T.","Newsletter draft",2,15,0,"done",18), // late
+  T("Lina T.","Social calendar",3,18,0,"in_progress",0),
+  T("Omar S.","Onboarding email",1,12,0,"done",11),
+  T("Omar S.","Support macros",2,18,0,"open",0),
+  T("Omar S.","Churn analysis",3,17,0,"done",16),
+  T("Dana W.","Revenue report",1,18,0,"done",17),
+  T("Dana W.","Invoice reconciliation",2,16,0,"missed",0),
+  T("Dana W.","Forecast model",3,18,0,"done",17),
+  T("Yuki H.","Bug triage",1,18,0,"done",17),
+  T("Yuki H.","Release notes",2,14,0,"open",0),
+];
+
+function dayIndex(iso){ // 0=Mon..6=Sun based on created date 2026-06-08 week
+  const d=new Date(iso); const base=new Date("2026-06-08T00:00:00");
+  return Math.floor((d-base)/86400000);
+}
+function statusOf(t){
+  if(t.status==='done'){
+    return (t.completed_at && new Date(t.completed_at)<=new Date(t.due_at))?'good':'late';
+  }
+  if(t.status==='missed')return 'bad';
+  if(t.status==='pending_review')return 'rev';
+  return 'open';
+}
+function hhmm(iso){return iso?iso.slice(11,16):'';}
+
+let TASKS=SAMPLE.slice();
+
+function build(){
+  const emps=[...new Set(TASKS.map(t=>t.assignee))];
+  // KPI (today = day0 Mon)
+  const today=TASKS.filter(t=>dayIndex(t.created_at)===0);
+  const doneToday=today.filter(t=>t.status==='done');
+  const ontime=doneToday.filter(t=>statusOf(t)==='good').length;
+  document.getElementById('kEmp').textContent=emps.length;
+  document.getElementById('kDue').textContent=today.length;
+  document.getElementById('kOnt').innerHTML=(doneToday.length?Math.round(100*ontime/doneToday.length):0)+'<small>%</small>';
+  document.getElementById('kOpen').textContent=TASKS.filter(t=>['open','in_progress','pending_review'].includes(t.status)).length;
+
+  // matrix
+  let h='<thead><tr><th>Employee</th>'+DOW.map(d=>`<th>${d}</th>`).join('')+'<th>Total</th></tr></thead><tbody>';
+  emps.forEach(e=>{
+    h+=`<tr><td class="emp">${e}</td>`;
+    let ta=0,td=0;
+    for(let day=0;day<7;day++){
+      const cell=TASKS.filter(t=>t.assignee===e && dayIndex(t.created_at)===day);
+      ta+=cell.length; td+=cell.filter(t=>t.status==='done').length;
+      if(!cell.length){h+='<td><span class="c-none">·</span></td>';continue;}
+      const sts=cell.map(statusOf);
+      const cls=sts.includes('bad')?'c-bad':sts.includes('late')?'c-late':
+                sts.every(s=>s==='good')?'c-good':'c-open';
+      const done=cell.filter(t=>t.status==='done').length;
+      const tip=cell.map(t=>`${hhmm(t.due_at)} ${t.description}`).join(' | ');
+      h+=`<td><span class="cell ${cls}" title="${tip}">${done}/${cell.length}<small>due ${hhmm(cell[0].due_at)}</small></span></td>`;
+    }
+    h+=`<td class="tot">${td}/${ta}</td></tr>`;
+  });
+  h+='</tbody>';
+  document.getElementById('matrix').innerHTML=h;
+
+  // day buttons
+  const db=document.getElementById('dayBtns');
+  db.innerHTML=DOW.map((d,i)=>`<span class="day${i===0?' on':''}" onclick="showDay(${i},this)">${d} ${8+i}</span>`).join('');
+  showDay(0);
+}
+function showDay(i,el){
+  if(el){document.querySelectorAll('.day').forEach(x=>x.classList.remove('on'));el.classList.add('on');}
+  const rows=TASKS.filter(t=>dayIndex(t.created_at)===i)
+    .sort((a,b)=>a.due_at.localeCompare(b.due_at));
+  const map={good:['b-good','✅ on-time'],late:['b-late','🟠 late'],bad:['b-bad','❌ missed'],
+             open:['b-open','📭 open'],rev:['b-rev','🟡 review']};
+  let h='<thead><tr><th>Employee</th><th style="text-align:left">Task</th><th>Due</th><th>Status</th></tr></thead><tbody>';
+  if(!rows.length)h+='<tr><td colspan="4" class="muted" style="padding:18px">No tasks this day</td></tr>';
+  rows.forEach(t=>{
+    const s=statusOf(t),[cls,label]=map[s];
+    h+=`<tr><td class="emp">${t.assignee}</td>
+      <td style="text-align:left">${t.description}</td>
+      <td class="due">${hhmm(t.due_at)}${s==='good'||s==='late'?` <span class="muted">→ ${hhmm(t.completed_at)}</span>`:''}</td>
+      <td><span class="badge ${cls}">${label}</span></td></tr>`;
+  });
+  h+='</tbody>';
+  document.getElementById('detail').innerHTML=h;
+}
+
+async function gviz(id,tab){
+  const u=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
+  const t=await(await fetch(u)).text();
+  const j=JSON.parse(t.substring(t.indexOf('{'),t.lastIndexOf('}')+1));
+  const c=j.table.cols.map(x=>x.label||x.id);
+  return j.table.rows.map(r=>{const o={};(r.c||[]).forEach((cell,k)=>o[c[k]]=cell?cell.v:null);return o;});
+}
+async function apiRows(tab){
+  try{const r=await fetch('api.php?action=rows&tab='+encodeURIComponent(tab),{cache:'no-store'});
+    if(r.ok){const j=await r.json(); if(j&&j.ok) return j.rows;}}catch(e){}
+  return null;
+}
+async function load(){
+  let rows=await apiRows(CONFIG.tab), src='● Live · API';
+  if(rows===null && CONFIG.sheetId){ try{rows=await gviz(CONFIG.sheetId,CONFIG.tab); src='● Live · Google Sheet linked';}catch(e){} }
+  if(!rows || !rows.length){document.getElementById('srcPill').textContent='● Sample data (no live source)';build();return;}
+  TASKS=rows.map(r=>({assignee:r.assignee,description:r.description,created_at:r.created_at,
+    due_at:r.due_at,status:r.status,completed_at:r.completed_at||''}));
+  document.getElementById('srcPill').textContent=src;build();
+}
+load();
+</script>
+</body>
+</html>

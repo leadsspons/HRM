@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.env
+
+# build artifacts
+*.zip
+
+# server-side secrets (never commit)
+web/service_account.json
+service_account.json
+
+# runtime data dumps
+web/data/*
+!web/data/.htaccess

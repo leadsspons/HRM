@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가이드 · 봇 토큰 & 초대 URL 받는 법</title>
+<style>
+  :root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--line:#e1e7f2;--txt:#1c2335;
+    --mut:#6b7592;--acc:#3b5bdb;--rooms:#2563eb;--good:#10b981;--gold:#d99e00;--warn:#b45309;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI','Malgun Gothic',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:28px;line-height:1.7}
+  .wrap{max-width:780px;margin:0 auto}
+  header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#3b5bdb,#8b5cf6);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:18px}
+  h1{font-size:21px}
+  .lang a{font-size:12.5px;text-decoration:none;color:var(--acc);border:1px solid var(--line);
+    padding:6px 11px;border-radius:8px;background:var(--panel)}
+  .sub{color:var(--mut);font-size:13px;margin:2px 0 22px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,30,60,.04)}
+  h2{font-size:17px;display:flex;align-items:center;gap:9px;margin-bottom:4px}
+  h2.tok{color:var(--rooms)} h2.url{color:var(--good)}
+  .h2sub{color:var(--mut);font-size:12.5px;margin-bottom:16px}
+  ol{list-style:none;counter-reset:s;padding:0}
+  ol li{counter-increment:s;position:relative;padding:10px 0 10px 44px;border-bottom:1px solid var(--line)}
+  ol li:last-child{border:0}
+  ol li::before{content:counter(s);position:absolute;left:0;top:10px;width:28px;height:28px;border-radius:8px;
+    background:var(--rooms);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .url li::before{background:var(--good)}
+  code{background:#eef2fa;padding:2px 7px;border-radius:6px;font-size:13px;color:#1c2335}
+  b.cmd{color:var(--rooms)}
+  .tip{background:#fffbeb;border:1px solid #fde68a;color:var(--warn);border-radius:11px;padding:12px 15px;font-size:13px;margin-top:14px}
+  .tip b{color:#92400e}
+  .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .pill{font-size:12px;border:1px solid var(--line);background:#fbfcfe;border-radius:999px;padding:5px 11px;color:var(--mut)}
+  footer{color:var(--mut);font-size:12px;text-align:center;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo">E</div>
+      <div><h1>봇 토큰 &amp; 초대 URL 받는 법</h1></div></div>
+    <div class="lang"><a href="guide_en.html">🇺🇸 English</a></div>
+  </header>
+  <div class="sub">관리자 콘솔에 입력하는 두 가지 — 각각 어디서 얻는지 안내합니다.</div>
+
+  <div class="card">
+    <h2 class="tok">🔑 1부 · 봇 토큰 (BotFather에서 발급)</h2>
+    <div class="h2sub">토큰은 봇의 비밀번호입니다. 봇은 하나만 만들어 모든 그룹챗에서 재사용합니다.</div>
+    <ol>
+      <li>텔레그램에서 <b class="cmd">@BotFather</b> (파란 인증마크가 있는 계정)를 검색해 대화를 엽니다.</li>
+      <li><code>/newbot</code> 을 보냅니다. <b>표시 이름</b>(예: "Emirard HRM")을 정하고, <code>bot</code> 으로 끝나는 <b>유저네임</b>(예: <code>emirard_hrm_bot</code>)을 입력합니다.</li>
+      <li>BotFather가 <code>123456789:AAH...xyz</code> 형태의 토큰을 줍니다. <b>복사</b>해서 Bot token 칸(또는 <code>.env</code>)에 넣습니다.</li>
+      <li><code>/setprivacy</code> → 봇 선택 → <b>Disable</b>. 그래야 봇이 그룹의 일반 메시지를 읽습니다(작업 추적에 필수).</li>
+      <li>각 그룹에 봇을 <b>멤버</b>로 추가한 뒤 <b>관리자(Admin)</b>로 승격합니다.</li>
+    </ol>
+    <div class="tip">⚠️ <b>토큰은 비밀로 관리하세요.</b> 토큰을 가진 사람은 봇을 제어할 수 있습니다. 유출되면 BotFather에 <code>/revoke</code> 를 보내 새 토큰을 발급받으세요.</div>
+  </div>
+
+  <div class="card">
+    <h2 class="url">🔗 2부 · 그룹 초대 URL</h2>
+    <div class="h2sub">선택 항목 — 그룹 공유 링크입니다. 봇을 추가하면 chat_id는 자동으로 채워집니다.</div>
+    <ol class="url">
+      <li>등록하려는 텔레그램 <b>그룹</b>을 엽니다.</li>
+      <li>상단의 <b>그룹 이름</b>을 눌러 그룹 정보/설정으로 들어갑니다.</li>
+      <li><b>멤버 추가</b> → <b>링크로 초대</b>(모바일), 또는 <b>편집 → 초대 링크</b>(데스크톱)를 선택합니다.</li>
+      <li>링크를 복사합니다 — <code>https://t.me/+AbC123...</code> 형태입니다. Invite URL 칸에 붙여넣습니다.</li>
+    </ol>
+    <div class="pillrow">
+      <span class="pill">📱 모바일: 그룹 이름 → 멤버 추가 → 링크로 초대</span>
+      <span class="pill">💻 데스크톱: 그룹 이름 → 편집 → 초대 링크</span>
+    </div>
+    <div class="tip">💡 <b>링크가 없어도 됩니다.</b> 그룹 안에서 <code>/addgroup</code> 만 실행하면 봇이 자동 등록하고 <code>chat_id</code> 까지 받아옵니다.</div>
+  </div>
+
+  <footer>Emirard HRM Completion Dashboard Challenge · 설치 가이드</footer>
+</div>
+</body>
+</html>

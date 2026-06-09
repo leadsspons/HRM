@@ -1,0 +1,36 @@
+name: Deploy to Hostinger
+
+# Deploys the contents of web/ to the Hostinger site (public_html) on every
+# push to main. Configure the three FTP secrets in:
+#   GitHub repo -> Settings -> Secrets and variables -> Actions
+#     FTP_SERVER    e.g. ftp://82.x.x.x  (or the host shown in hPanel -> Files -> FTP Accounts)
+#     FTP_USERNAME  the FTP account username from hPanel
+#     FTP_PASSWORD  the FTP account password
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:        # lets you trigger a deploy manually from the Actions tab
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy web/ via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./web/
+          server-dir: ./public_html/
+          # Never overwrite the live runtime config / secrets on the server:
+          exclude: |
+            **/.git*
+            **/.git*/**
+            config.php
+            service_account.json
+            data/**

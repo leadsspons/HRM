@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hostinger FTP 서브계정 만들기 · 삭제하기</title>
+<style>
+  :root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--line:#e1e7f2;--txt:#1c2335;--mut:#6b7592;
+    --acc:#3b5bdb;--good:#16a34a;--bad:#dc2626;--gold:#d99e00;--warn:#b45309;--chrome:#eef1f7;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI','Malgun Gothic',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:26px;line-height:1.65}
+  .wrap{max-width:860px;margin:0 auto}
+  header{display:flex;align-items:center;gap:13px;margin-bottom:6px}
+  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#673de6,#9b6cff);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:20px}
+  h1{font-size:21px}.sub{color:var(--mut);font-size:13px;margin:2px 0 20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,30,60,.05)}
+  .card.make{border-top:4px solid var(--good)}
+  .card.del{border-top:4px solid var(--bad)}
+  h2{font-size:18px;display:flex;align-items:center;gap:9px;margin-bottom:3px}
+  h2.make{color:var(--good)} h2.del{color:var(--bad)}
+  .h2sub{color:var(--mut);font-size:12.5px;margin-bottom:18px}
+  /* steps */
+  ol{list-style:none;counter-reset:s;padding:0}
+  ol li{counter-increment:s;position:relative;padding:12px 0 12px 46px;border-bottom:1px dashed var(--line)}
+  ol li:last-child{border:0}
+  ol li::before{content:counter(s);position:absolute;left:0;top:11px;width:30px;height:30px;border-radius:9px;
+    color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;background:var(--good)}
+  .del ol li::before{background:var(--bad)}
+  .path{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;font-size:12.5px}
+  .crumb{background:#eef2fa;border:1px solid var(--line);border-radius:7px;padding:3px 9px;font-weight:600;color:#33406a}
+  .arr{color:var(--mut);font-weight:700}
+  code{background:#eef2fa;padding:2px 7px;border-radius:6px;font-size:12.5px}
+  /* mock browser */
+  .mock{margin:14px 0 4px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .bar{background:var(--chrome);padding:8px 12px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--line)}
+  .d{width:11px;height:11px;border-radius:50%}
+  .u{flex:1;background:#fff;border:1px solid var(--line);border-radius:7px;font-size:11.5px;color:var(--mut);padding:4px 10px;margin-left:8px}
+  .body{padding:16px}
+  .ftitle{font-weight:700;font-size:13.5px;margin-bottom:12px;color:#33406a}
+  .field{margin-bottom:11px}
+  .lbl{font-size:11.5px;color:var(--mut);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+  .inp{border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:13px;background:#fbfcfe;color:#33406a}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn{display:inline-block;margin-top:6px;background:var(--good);color:#fff;font-weight:700;font-size:13px;padding:9px 18px;border-radius:9px}
+  .btn.red{background:var(--bad)}
+  .acctrow{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:#fbfcfe}
+  .acctrow .who{font-size:13px}.acctrow .who b{color:#33406a}
+  .trash{background:#fdecec;color:var(--bad);border:1px solid #f6c9c9;border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:700}
+  .tip{background:#fffbeb;border:1px solid #fde68a;color:var(--warn);border-radius:11px;padding:12px 15px;font-size:13px;margin-top:14px}
+  .tip b{color:#92400e}
+  .give{background:#eefdf3;border:1px solid #bbf0d0;color:#15803d;border-radius:11px;padding:12px 15px;font-size:13px}
+  .pill{display:inline-block;background:#fff;border:1px solid #bbf0d0;border-radius:7px;padding:3px 8px;margin:3px 4px 0 0;font-size:12px;color:#15803d;font-weight:600}
+  footer{color:var(--mut);font-size:12px;text-align:center;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="max-width:860px;margin:0 auto 10px;text-align:right"><a href="ftp_guide_en.html" style="font-size:12.5px;text-decoration:none;color:#3b5bdb;border:1px solid #e1e7f2;padding:6px 11px;border-radius:8px;background:#fff">🇺🇸 English</a> <a style="font-size:12.5px;text-decoration:none;color:#fff;border:1px solid #3b5bdb;padding:6px 11px;border-radius:8px;background:#3b5bdb">한국어</a></div>
+  <header><div class="logo">H</div>
+    <div><h1>Hostinger FTP 서브계정 — 만들기 &amp; 삭제하기</h1>
+      <div class="sub">개발자에게 내 비밀번호 대신 "임시 FTP 계정"만 주고, 끝나면 지우는 방법</div></div>
+  </header>
+
+  <!-- ========== 만들기 ========== -->
+  <div class="card make">
+    <h2 class="make">🟢 1단계 · FTP 서브계정 만들기</h2>
+    <div class="h2sub">이 사이트 폴더만 보이는 계정을 새로 만들어 개발자에게 전달합니다</div>
+    <ol>
+      <li><b>hPanel에 로그인</b>합니다. <span class="path">
+        <span class="crumb">hpanel.hostinger.com</span></span></li>
+      <li>위쪽 <b>Websites</b> → 해당 사이트의 <b>Dashboard</b>(관리)로 들어갑니다.</li>
+      <li>왼쪽 메뉴에서 <b>Files</b> → <b>FTP Accounts</b> 를 엽니다.<span class="path">
+        <span class="crumb">Websites</span><span class="arr">›</span>
+        <span class="crumb">Dashboard</span><span class="arr">›</span>
+        <span class="crumb">Files</span><span class="arr">›</span>
+        <span class="crumb">FTP Accounts</span></span></li>
+      <li><b>"Create a new FTP account"</b> 항목을 채웁니다 (아래 화면 참고).
+        <div class="mock">
+          <div class="bar"><span class="d" style="background:#ff5f57"></span><span class="d" style="background:#febc2e"></span>
+            <span class="d" style="background:#28c840"></span><span class="u">hpanel.hostinger.com › FTP Accounts</span></div>
+          <div class="body">
+            <div class="ftitle">Create a new FTP account</div>
+            <div class="row2">
+              <div class="field"><div class="lbl">👤 FTP username</div><div class="inp">dev_temp</div></div>
+              <div class="field"><div class="lbl">🔑 Password</div><div class="inp">••••••••••••</div></div>
+            </div>
+            <div class="field"><div class="lbl">📁 Directory (이 사이트 폴더만)</div>
+              <div class="inp">/domains/yoursite.com/public_html</div></div>
+            <span class="btn">Create</span>
+          </div>
+        </div>
+      </li>
+      <li><b>Create</b> 를 누르면 끝. 이 <b>username / password / 서버주소</b>만 개발자에게 줍니다.</li>
+    </ol>
+    <div class="give">✅ 개발자에게 주는 것은 이 3가지뿐입니다:
+      <span class="pill">FTP Host (예: ftp.yoursite.com)</span>
+      <span class="pill">Username (dev_temp)</span>
+      <span class="pill">Password</span>
+      <br>내 hPanel 로그인 비밀번호는 <b>절대 주지 않습니다.</b>
+    </div>
+  </div>
+
+  <!-- ========== 삭제하기 ========== -->
+  <div class="card del">
+    <h2 class="del">🔴 2단계 · 작업 끝나면 삭제하기</h2>
+    <div class="h2sub">계정 하나만 지우면 개발자 접근이 즉시 끊깁니다</div>
+    <ol>
+      <li>같은 화면 <b>Files → FTP Accounts</b> 로 다시 들어갑니다.</li>
+      <li>아래에 <b>만들어 둔 계정 목록</b>이 보입니다. 방금 만든 계정을 찾습니다.
+        <div class="mock">
+          <div class="bar"><span class="d" style="background:#ff5f57"></span><span class="d" style="background:#febc2e"></span>
+            <span class="d" style="background:#28c840"></span><span class="u">hpanel.hostinger.com › FTP Accounts</span></div>
+          <div class="body">
+            <div class="ftitle">FTP accounts (목록)</div>
+            <div class="acctrow">
+              <div class="who">👤 <b>dev_temp</b> &nbsp;<span style="color:#6b7592">/public_html</span></div>
+              <span class="trash">🗑️ Delete</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>계정 옆 <b>🗑️ Delete</b>(휴지통) 를 누르고 <b>확인</b>합니다. → 접근 차단 완료 ✅</li>
+    </ol>
+    <div class="tip">⚠️ <b>마무리 보안 2가지</b> — ① 내 hPanel 비밀번호도 한 번 바꿔주고,
+      ② 프로필 → <b>Security</b> 에서 <b>2FA(2단계 인증)</b> 를 켜두면 끝입니다.
+      개발자가 봇 토큰이나 <code>service_account.json</code> 같은 열쇠 파일을 봤다면 그것도 새로 발급하세요.</div>
+  </div>
+
+  <footer>Emirard · 사내 보안 가이드 · 한 줄 요약: "내 비번 주지 말고, 임시 FTP 계정 줬다가 끝나면 지운다"</footer>
+</div>
+</body>
+</html>

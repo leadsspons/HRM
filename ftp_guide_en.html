@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hostinger FTP Sub-account · Create & Delete</title>
+<style>
+  :root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--line:#e1e7f2;--txt:#1c2335;--mut:#6b7592;
+    --acc:#3b5bdb;--good:#16a34a;--bad:#dc2626;--gold:#d99e00;--warn:#b45309;--chrome:#eef1f7;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:26px;line-height:1.6}
+  .wrap{max-width:860px;margin:0 auto}
+  header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px}
+  .brand{display:flex;align-items:center;gap:13px}
+  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#673de6,#9b6cff);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:20px}
+  h1{font-size:21px}.sub{color:var(--mut);font-size:13px;margin:2px 0 18px}
+  .lang a{font-size:12.5px;text-decoration:none;color:var(--acc);border:1px solid var(--line);padding:6px 11px;border-radius:8px;background:var(--panel)}
+  .lang a.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,30,60,.05)}
+  .card.make{border-top:4px solid var(--good)} .card.del{border-top:4px solid var(--bad)}
+  h2{font-size:18px;display:flex;align-items:center;gap:9px;margin-bottom:3px}
+  h2.make{color:var(--good)} h2.del{color:var(--bad)}
+  .h2sub{color:var(--mut);font-size:12.5px;margin-bottom:18px}
+  ol{list-style:none;counter-reset:s;padding:0}
+  ol li{counter-increment:s;position:relative;padding:12px 0 12px 46px;border-bottom:1px dashed var(--line)}
+  ol li:last-child{border:0}
+  ol li::before{content:counter(s);position:absolute;left:0;top:11px;width:30px;height:30px;border-radius:9px;
+    color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;background:var(--good)}
+  .del ol li::before{background:var(--bad)}
+  .path{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;font-size:12.5px}
+  .crumb{background:#eef2fa;border:1px solid var(--line);border-radius:7px;padding:3px 9px;font-weight:600;color:#33406a}
+  .arr{color:var(--mut);font-weight:700}
+  code{background:#eef2fa;padding:2px 7px;border-radius:6px;font-size:12.5px}
+  .mock{margin:14px 0 4px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .bar{background:var(--chrome);padding:8px 12px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--line)}
+  .d{width:11px;height:11px;border-radius:50%}
+  .u{flex:1;background:#fff;border:1px solid var(--line);border-radius:7px;font-size:11.5px;color:var(--mut);padding:4px 10px;margin-left:8px}
+  .body{padding:16px}
+  .ftitle{font-weight:700;font-size:13.5px;margin-bottom:12px;color:#33406a}
+  .field{margin-bottom:11px}
+  .lbl{font-size:11.5px;color:var(--mut);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+  .inp{border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:13px;background:#fbfcfe;color:#33406a}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn{display:inline-block;margin-top:6px;background:var(--good);color:#fff;font-weight:700;font-size:13px;padding:9px 18px;border-radius:9px}
+  .acctrow{display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:#fbfcfe}
+  .acctrow .who{font-size:13px}.acctrow .who b{color:#33406a}
+  .trash{background:#fdecec;color:var(--bad);border:1px solid #f6c9c9;border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:700}
+  .tip{background:#fffbeb;border:1px solid #fde68a;color:var(--warn);border-radius:11px;padding:12px 15px;font-size:13px;margin-top:14px}
+  .tip b{color:#92400e}
+  .give{background:#eefdf3;border:1px solid #bbf0d0;color:#15803d;border-radius:11px;padding:12px 15px;font-size:13px}
+  .pill{display:inline-block;background:#fff;border:1px solid #bbf0d0;border-radius:7px;padding:3px 8px;margin:3px 4px 0 0;font-size:12px;color:#15803d;font-weight:600}
+  footer{color:var(--mut);font-size:12px;text-align:center;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo">H</div>
+      <div><h1>Hostinger FTP Sub-account — Create &amp; Delete</h1>
+        <div class="sub">Give your developer a temporary FTP account instead of your password — then delete it when done</div></div></div>
+    <div class="lang"><a class="on">EN</a> <a href="ftp_guide_ko.html">🇰🇷 한국어</a></div>
+  </header>
+
+  <div class="card make">
+    <h2 class="make">🟢 Step 1 · Create an FTP sub-account</h2>
+    <div class="h2sub">Make an account limited to this site's folder and hand it to the developer</div>
+    <ol>
+      <li><b>Log in to hPanel.</b> <span class="path"><span class="crumb">hpanel.hostinger.com</span></span></li>
+      <li>Open <b>Websites</b> → your site's <b>Dashboard</b>.</li>
+      <li>In the left menu open <b>Files</b> → <b>FTP Accounts</b>.<span class="path">
+        <span class="crumb">Websites</span><span class="arr">›</span><span class="crumb">Dashboard</span><span class="arr">›</span>
+        <span class="crumb">Files</span><span class="arr">›</span><span class="crumb">FTP Accounts</span></span></li>
+      <li>Fill in <b>"Create a new FTP account"</b> (see the screen below).
+        <div class="mock">
+          <div class="bar"><span class="d" style="background:#ff5f57"></span><span class="d" style="background:#febc2e"></span>
+            <span class="d" style="background:#28c840"></span><span class="u">hpanel.hostinger.com › FTP Accounts</span></div>
+          <div class="body">
+            <div class="ftitle">Create a new FTP account</div>
+            <div class="row2">
+              <div class="field"><div class="lbl">👤 FTP username</div><div class="inp">dev_temp</div></div>
+              <div class="field"><div class="lbl">🔑 Password</div><div class="inp">••••••••••••</div></div></div>
+            <div class="field"><div class="lbl">📁 Directory (this site only)</div>
+              <div class="inp">/domains/yoursite.com/public_html</div></div>
+            <span class="btn">Create</span>
+          </div>
+        </div>
+      </li>
+      <li>Click <b>Create</b>. Give the developer only this <b>username / password / FTP host</b>.</li>
+    </ol>
+    <div class="give">✅ Hand over only these three:
+      <span class="pill">FTP Host (e.g. ftp.yoursite.com)</span>
+      <span class="pill">Username (dev_temp)</span>
+      <span class="pill">Password</span>
+      <br>Your hPanel login password is <b>never shared.</b>
+    </div>
+  </div>
+
+  <div class="card del">
+    <h2 class="del">🔴 Step 2 · Delete it when the work is done</h2>
+    <div class="h2sub">Removing this one account instantly cuts off the developer's access</div>
+    <ol>
+      <li>Go back to <b>Files → FTP Accounts</b>.</li>
+      <li>You'll see the <b>list of accounts</b> below. Find the one you created.
+        <div class="mock">
+          <div class="bar"><span class="d" style="background:#ff5f57"></span><span class="d" style="background:#febc2e"></span>
+            <span class="d" style="background:#28c840"></span><span class="u">hpanel.hostinger.com › FTP Accounts</span></div>
+          <div class="body">
+            <div class="ftitle">FTP accounts (list)</div>
+            <div class="acctrow">
+              <div class="who">👤 <b>dev_temp</b> &nbsp;<span style="color:#6b7592">/public_html</span></div>
+              <span class="trash">🗑️ Delete</span></div>
+          </div>
+        </div>
+      </li>
+      <li>Click <b>🗑️ Delete</b> next to it and confirm. → Access revoked ✅</li>
+    </ol>
+    <div class="tip">⚠️ <b>Two final security steps</b> — ① change your own hPanel password,
+      ② turn on <b>2FA</b> under Profile → <b>Security</b>.
+      If the developer saw any key files (bot token, <code>service_account.json</code>), re-issue those too.</div>
+  </div>
+
+  <footer>Emirard · Internal security guide · In one line: "Don't share your password — give a temporary FTP account, then delete it."</footer>
+</div>
+</body>
+</html>

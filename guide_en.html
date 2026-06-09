@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide · Get a Bot Token & Invite URL</title>
+<style>
+  :root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--line:#e1e7f2;--txt:#1c2335;
+    --mut:#6b7592;--acc:#3b5bdb;--rooms:#2563eb;--good:#10b981;--gold:#d99e00;--warn:#b45309;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:28px;line-height:1.6}
+  .wrap{max-width:780px;margin:0 auto}
+  header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#3b5bdb,#8b5cf6);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:18px}
+  h1{font-size:21px}
+  .lang a{font-size:12.5px;text-decoration:none;color:var(--acc);border:1px solid var(--line);
+    padding:6px 11px;border-radius:8px;background:var(--panel)}
+  .sub{color:var(--mut);font-size:13px;margin:2px 0 22px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,30,60,.04)}
+  h2{font-size:17px;display:flex;align-items:center;gap:9px;margin-bottom:4px}
+  h2.tok{color:var(--rooms)} h2.url{color:var(--good)}
+  .h2sub{color:var(--mut);font-size:12.5px;margin-bottom:16px}
+  ol{list-style:none;counter-reset:s;padding:0}
+  ol li{counter-increment:s;position:relative;padding:10px 0 10px 44px;border-bottom:1px solid var(--line)}
+  ol li:last-child{border:0}
+  ol li::before{content:counter(s);position:absolute;left:0;top:9px;width:28px;height:28px;border-radius:8px;
+    background:var(--rooms);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .url li::before{background:var(--good)}
+  code{background:#eef2fa;padding:2px 7px;border-radius:6px;font-size:13px;color:#1c2335}
+  b.cmd{color:var(--rooms)}
+  .tip{background:#fffbeb;border:1px solid #fde68a;color:var(--warn);border-radius:11px;padding:12px 15px;font-size:13px;margin-top:14px}
+  .tip b{color:#92400e}
+  .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .pill{font-size:12px;border:1px solid var(--line);background:#fbfcfe;border-radius:999px;padding:5px 11px;color:var(--mut)}
+  footer{color:var(--mut);font-size:12px;text-align:center;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo">E</div>
+      <div><h1>How to get your Bot Token &amp; Invite URL</h1></div></div>
+    <div class="lang"><a href="guide_ko.html">🇰🇷 한국어</a></div>
+  </header>
+  <div class="sub">Two things you enter in the Admin Console — here's where each comes from.</div>
+
+  <div class="card">
+    <h2 class="tok">🔑 Part 1 · Bot Token (from BotFather)</h2>
+    <div class="h2sub">A token is the bot's password. You create one bot and reuse it across all your group chats.</div>
+    <ol>
+      <li>Open Telegram and search for <b class="cmd">@BotFather</b> (the one with the blue checkmark). Open the chat.</li>
+      <li>Send <code>/newbot</code>. Choose a <b>display name</b> (e.g. "Emirard HRM"), then a <b>username</b> ending in <code>bot</code> (e.g. <code>emirard_hrm_bot</code>).</li>
+      <li>BotFather replies with your token, like <code>123456789:AAH...xyz</code>. <b>Copy it</b> — this goes in the Bot token field (or in <code>.env</code>).</li>
+      <li>Send <code>/setprivacy</code> → pick your bot → choose <b>Disable</b>. This lets the bot read normal group messages (required for task tracking).</li>
+      <li>Open each group → add your bot as a <b>member</b>, then promote it to <b>Admin</b>.</li>
+    </ol>
+    <div class="tip">⚠️ <b>Keep the token secret.</b> Anyone with it can control your bot. If it leaks, send <code>/revoke</code> to BotFather to get a new one.</div>
+  </div>
+
+  <div class="card">
+    <h2 class="url">🔗 Part 2 · Group Invite URL</h2>
+    <div class="h2sub">Optional — a shareable link to the group. The bot fills in the chat_id automatically once it's added.</div>
+    <ol class="url">
+      <li>Open the Telegram <b>group</b> you want to register.</li>
+      <li>Tap the <b>group name</b> at the top to open group info / settings.</li>
+      <li>Choose <b>Add Members</b> → <b>Invite to Group via Link</b> (mobile), or <b>Edit → Invite Links</b> (desktop).</li>
+      <li>Copy the link — it looks like <code>https://t.me/+AbC123...</code>. Paste it into the Invite URL field.</li>
+    </ol>
+    <div class="pillrow">
+      <span class="pill">📱 Mobile: tap group title → Add Members → Invite via Link</span>
+      <span class="pill">💻 Desktop: group title → Edit → Invite Links</span>
+    </div>
+    <div class="tip">💡 <b>No link needed?</b> Just run <code>/addgroup</code> inside the group. The bot registers it and captures the <code>chat_id</code> for you.</div>
+  </div>
+
+  <footer>Emirard HRM Completion Dashboard Challenge · Setup Guide</footer>
+</div>
+</body>
+</html>

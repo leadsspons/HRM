@@ -1,0 +1,6 @@
+# Default to the service landing page
+DirectoryIndex index.php index.html
+# Protect sensitive files
+<FilesMatch "(config\.php|service_account\.json|seed\.json)$">
+  Require all denied
+</FilesMatch>

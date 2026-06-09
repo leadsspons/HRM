@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workidoki · HRM Completion Dashboard Challenge</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0c1020; --panel:#151a30; --panel2:#1b2240; --line:#283056;
+    --txt:#e8ecf8; --mut:#94a0c8; --acc:#6c8cff;
+    --comp:#37d39b; --ontime:#6c8cff; --vote:#a06cff; --act:#ffb547;
+    --good:#37d39b; --warn:#ffb547; --bad:#ff6b81; --gold:#ffd75e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:
+    radial-gradient(1200px 600px at 80% -10%,#1a2348 0,transparent 60%),var(--bg);
+    color:var(--txt);padding:26px;min-height:100vh}
+  .wrap{max-width:1240px;margin:0 auto}
+  header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:18px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#6c8cff,#a06cff);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px}
+  h1{font-size:21px;font-weight:700}
+  .sub{color:var(--mut);font-size:13px;margin-top:2px}
+  .pill{font-size:12px;color:var(--mut);background:var(--panel);border:1px solid var(--line);
+    padding:7px 13px;border-radius:999px}
+  .weights{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+  .wbadge{font-size:12px;border:1px solid var(--line);background:var(--panel);
+    padding:6px 11px;border-radius:9px;display:flex;align-items:center;gap:7px}
+  .dot{width:9px;height:9px;border-radius:3px;display:inline-block}
+  .grid{display:grid;gap:16px}
+  .kpis{grid-template-columns:repeat(4,1fr);margin-bottom:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .kpi .lbl{color:var(--mut);font-size:12.5px;margin-bottom:8px}
+  .kpi .val{font-size:29px;font-weight:800}
+  .kpi .val small{font-size:15px;font-weight:600;color:var(--mut)}
+  .kpi .bar{height:6px;border-radius:99px;background:var(--panel2);margin-top:12px;overflow:hidden}
+  .kpi .bar>i{display:block;height:100%;border-radius:99px}
+  .cols{grid-template-columns:1.55fr 1fr}
+  .card h2{font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .tag{font-size:11px;color:var(--mut);font-weight:500}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:9px 7px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-weight:600;font-size:11.5px}
+  td.r,th.r{text-align:right}
+  .rk{width:28px;height:28px;border-radius:9px;display:inline-flex;align-items:center;
+    justify-content:center;font-weight:800;background:var(--panel2);font-size:12px}
+  .rk.g1{background:linear-gradient(135deg,#ffd75e,#f0a93b);color:#3a2c00}
+  .rk.g2{background:linear-gradient(135deg,#e4ebf7,#a9b6cf);color:#1c2335}
+  .rk.g3{background:linear-gradient(135deg,#e6995a,#bf6f33);color:#2a1500}
+  .who{font-weight:600}
+  .score{font-weight:800;font-size:15px}
+  .mini{display:flex;gap:3px;align-items:flex-end;height:26px}
+  .mini i{width:8px;border-radius:2px;display:block}
+  .pts{font-weight:800;color:var(--gold)}
+  .qrow{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .qrow:last-child{border:0}
+  .btns{display:flex;gap:6px}
+  .b{font-size:11px;padding:4px 10px;border-radius:7px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--txt);cursor:default}
+  .b.ok{color:var(--good);border-color:rgba(55,211,155,.4)}
+  .b.no{color:var(--bad);border-color:rgba(255,107,129,.4)}
+  .conf{font-size:11px;color:var(--mut)}
+  .foot{color:var(--mut);font-size:12px;margin-top:18px;text-align:center;line-height:1.7}
+  .src{display:inline-block;padding:3px 8px;border:1px solid var(--line);border-radius:7px;background:var(--panel);font-size:11px}
+  @media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px"><a href="dashboard.html" style="font-size:12px;text-decoration:none;padding:6px 11px;border-radius:8px;color:#fff;background:#6c8cff;border:1px solid #6c8cff">🏆 Challenge Leaderboard</a><a href="employee_tracker.html" style="font-size:12px;text-decoration:none;padding:6px 11px;border-radius:8px;color:#94a0c8;background:#151a30;border:1px solid #283056">📋 Employee Tracker</a><a href="user_challenge.html" style="font-size:12px;text-decoration:none;padding:6px 11px;border-radius:8px;color:#94a0c8;background:#151a30;border:1px solid #283056">🔥 Team Challenge</a><a href="admin.html" style="font-size:12px;text-decoration:none;padding:6px 11px;border-radius:8px;color:#94a0c8;background:#151a30;border:1px solid #283056">⚙️ Admin Console</a></nav>
+  <header>
+    <div class="brand">
+      <img src="workidoki-logo.png" alt="Workidoki" style="height:30px;display:block">
+      <div>
+        <h1>HRM Completion Dashboard <span style="color:var(--gold)">Challenge</span></h1>
+        <div class="sub">Workidoki · Weighted score = Completion · On-time · Peer votes · Activity</div>
+      </div>
+    </div>
+    <div class="pill" id="srcPill">● Checking data source…</div>
+  </header>
+
+  <div class="weights">
+    <span class="wbadge"><span class="dot" style="background:var(--comp)"></span>Completion <b>35%</b></span>
+    <span class="wbadge"><span class="dot" style="background:var(--ontime)"></span>On-time <b>30%</b></span>
+    <span class="wbadge"><span class="dot" style="background:var(--vote)"></span>Peer votes <b>20%</b></span>
+    <span class="wbadge"><span class="dot" style="background:var(--act)"></span>Activity <b>15%</b></span>
+    <span class="wbadge">⚡ Response speed <b>+bonus</b></span>
+  </div>
+
+  <div class="grid kpis">
+    <div class="card kpi"><div class="lbl" style="color:var(--acc)">👥 Members</div>
+      <div class="val" id="kTotal">–</div><div class="bar"><i id="b1" style="width:100%;background:var(--acc)"></i></div></div>
+    <div class="card kpi"><div class="lbl" style="color:var(--comp)">✅ Overall completion</div>
+      <div class="val" id="kComp">–<small>%</small></div><div class="bar"><i id="bComp" style="background:var(--comp)"></i></div></div>
+    <div class="card kpi"><div class="lbl" style="color:var(--ontime)">⏱️ On-time rate</div>
+      <div class="val" id="kOnt">–<small>%</small></div><div class="bar"><i id="bOnt" style="background:var(--ontime)"></i></div></div>
+    <div class="card kpi"><div class="lbl" style="color:var(--gold)">🏅 Incentive points</div>
+      <div class="val" id="kPoints">–<small> p</small></div><div class="bar"><i style="width:100%;background:var(--gold)"></i></div></div>
+  </div>
+
+  <div class="grid cols">
+    <div class="card">
+      <h2 style="color:var(--gold)">🏆 Quarter Challenge Leaderboard <span class="tag" id="qLabel"></span></h2>
+      <table>
+        <thead><tr><th>#</th><th>Member</th>
+          <th class="r">Compl.</th><th class="r">On-time</th><th class="r">Votes</th><th class="r">Activity</th>
+          <th class="r">Resp.</th><th class="r">Score</th><th class="r">Points</th></tr></thead>
+        <tbody id="lbBody"></tbody>
+      </table>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <h2 style="color:var(--warn)">🟡 Completion Approvals <span class="tag">hybrid review</span></h2>
+        <div id="pendBox"></div>
+      </div>
+      <div class="card">
+        <h2 style="color:var(--ontime)">📈 Weighted Score Trend</h2>
+        <canvas id="trend" height="170"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:16px;grid-template-columns:1fr">
+    <div class="card">
+      <h2 style="color:var(--good)">🎯 This Week's Weighted Score <span class="tag">top scorers earn incentive points</span></h2>
+      <canvas id="weekBar" height="110"></canvas>
+    </div>
+  </div>
+
+  <div class="foot">
+    Live data: put your published Google Sheet ID in <span class="src">CONFIG.sheetId</span> →
+    it loads from the Quarter · Points · Tasks tabs on every refresh (sample shown if unset).<br>
+    Approvals are confirmed from the bot's admin chat ✅/❌ buttons or <span class="src">/approve &lt;id&gt;</span>.
+  </div>
+</div>
+
+<script>
+const CONFIG = { sheetId:"", tabs:{Tasks:"Tasks",Points:"Points",Quarter:"Quarter"} };
+const COL = {comp:'#37d39b',ontime:'#6c8cff',vote:'#a06cff',act:'#ffb547'};
+
+const SAMPLE = {
+  quarter:"2026-Q2",
+  leaderboard:[
+    {name:"Sara K.", comp:96, ontime:94, vote:88, act:60, bonus:9, score:91, points:64},
+    {name:"John P.", comp:91, ontime:85, vote:100,act:100,bonus:6, score:90, points:60},
+    {name:"Mike R.", comp:88, ontime:96, vote:55, act:45, bonus:8, score:82, points:48},
+    {name:"Lina T.", comp:84, ontime:79, vote:62, act:70, bonus:5, score:78, points:37},
+    {name:"Omar S.", comp:79, ontime:88, vote:40, act:35, bonus:3, score:72, points:26},
+    {name:"Dana W.", comp:73, ontime:70, vote:50, act:55, bonus:4, score:67, points:16},
+    {name:"Yuki H.", comp:61, ontime:64, vote:30, act:40, bonus:2, score:55, points:6},
+  ],
+  weeks:["W20","W21","W22","W23","W24"],
+  trend:{"Sara K.":[84,88,90,92,91],"John P.":[78,82,86,89,90],"Mike R.":[70,75,80,81,82]},
+  pending:[
+    {id:"T-20260608-007", who:"Lina T.", desc:"Ad creatives (3 variants)", conf:0.74},
+    {id:"T-20260608-011", who:"Omar S.", desc:"Send onboarding email", conf:0.66},
+    {id:"T-20260608-013", who:"Dana W.", desc:"Weekly revenue report", conf:0.81},
+  ],
+};
+
+async function gviz(id,tab){
+  const u=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
+  const t=await(await fetch(u)).text();
+  const j=JSON.parse(t.substring(t.indexOf('{'),t.lastIndexOf('}')+1));
+  const c=j.table.cols.map(x=>x.label||x.id);
+  return j.table.rows.map(r=>{const o={};(r.c||[]).forEach((cell,i)=>o[c[i]]=cell?cell.v:null);return o;});
+}
+const chip=v=>{const c=v>=85?'var(--good)':v>=70?'var(--warn)':'var(--bad)';return `<b style="color:${c}">${Math.round(v)}%</b>`;};
+
+function mini(r){
+  const m=[['comp',r.comp],['ontime',r.ontime],['vote',r.vote],['act',r.act]];
+  return '<span class="mini">'+m.map(([k,v])=>`<i style="height:${Math.max(4,v*0.26)}px;background:${COL[k]}"></i>`).join('')+'</span>';
+}
+
+function renderLeaderboard(rows,q){
+  qLabel.textContent=q;
+  lbBody.innerHTML=rows.map((r,i)=>{
+    const g=i<3?`g${i+1}`:'';
+    return `<tr><td><span class="rk ${g}">${i+1}</span></td>
+      <td class="who">${r.name} ${mini(r)}</td>
+      <td class="r">${chip(r.comp)}</td><td class="r">${chip(r.ontime)}</td>
+      <td class="r" style="color:var(--vote)">${Math.round(r.vote)}</td>
+      <td class="r" style="color:var(--act)">${Math.round(r.act)}</td>
+      <td class="r" style="color:#22c55e;font-weight:700">+${(r.bonus??0)}</td><td class="r score">${r.score}</td><td class="r pts">${r.points}p</td></tr>`;
+  }).join('');
+}
+function renderKPIs(d){
+  const avg=k=>Math.round(d.leaderboard.reduce((s,r)=>s+r[k],0)/d.leaderboard.length);
+  kTotal.textContent=d.leaderboard.length+' members';
+  kComp.innerHTML=avg('comp')+'<small>%</small>'; bComp.style.width=avg('comp')+'%';
+  kOnt.innerHTML=avg('ontime')+'<small>%</small>'; bOnt.style.width=avg('ontime')+'%';
+  kPoints.innerHTML=d.leaderboard.reduce((s,r)=>s+r.points,0)+'<small> p</small>';
+}
+function renderPending(list){
+  pendBox.innerHTML=(list&&list.length)?list.map(p=>`<div class="qrow">
+    <div><div style="font-weight:600">@${p.who}</div>
+      <div class="conf">${p.id} · ${p.desc} · conf ${p.conf}</div></div>
+    <div class="btns"><span class="b ok">✅ Approve</span><span class="b no">❌ Reject</span></div>
+  </div>`).join(''):'<div class="conf">No items pending ✅</div>';
+}
+function renderTrend(d){
+  const cl=['#6c8cff','#37d39b','#ffd75e'];
+  const ds=Object.entries(d.trend).map(([n,v],i)=>({label:n,data:v,borderColor:cl[i%3],
+    backgroundColor:'transparent',tension:.35,borderWidth:2,pointRadius:2}));
+  new Chart(trend,{type:'line',data:{labels:d.weeks,datasets:ds},
+    options:{plugins:{legend:{labels:{color:'#94a0c8',boxWidth:10,font:{size:10}}}},
+      scales:{y:{min:50,max:100,ticks:{color:'#94a0c8'},grid:{color:'#283056'}},
+              x:{ticks:{color:'#94a0c8'},grid:{display:false}}}}});
+}
+function renderWeekBar(d){
+  const L=d.leaderboard.map(x=>x.name),V=d.leaderboard.map(x=>x.score);
+  const bg=V.map(v=>v>=85?'#37d39b':v>=70?'#ffb547':'#ff6b81');
+  new Chart(weekBar,{type:'bar',data:{labels:L,datasets:[{data:V,backgroundColor:bg,borderRadius:6}]},
+    options:{plugins:{legend:{display:false}},
+      scales:{y:{min:0,max:100,ticks:{color:'#94a0c8'},grid:{color:'#283056'}},
+              x:{ticks:{color:'#94a0c8'},grid:{display:false}}}}});
+}
+function paint(d,label){
+  srcPill.innerHTML=label; renderKPIs(d); renderLeaderboard(d.leaderboard,d.quarter);
+  renderPending(d.pending); renderTrend(d); renderWeekBar(d);
+}
+async function apiRows(tab){
+  try{const r=await fetch('api.php?action=rows&tab='+encodeURIComponent(tab),{cache:'no-store'});
+    if(r.ok){const j=await r.json(); if(j&&j.ok) return j.rows;}}catch(e){}
+  return null;
+}
+async function load(){
+  let src='● Live · API', Q=await apiRows(CONFIG.tabs.Quarter), P=await apiRows(CONFIG.tabs.Points);
+  if(Q===null && CONFIG.sheetId){ try{Q=await gviz(CONFIG.sheetId,CONFIG.tabs.Quarter);
+      P=await gviz(CONFIG.sheetId,CONFIG.tabs.Points); src='● Live · Google Sheet linked'; }catch(e){} }
+  if(!Q || !Q.length){ paint(SAMPLE,'● Sample data (no live source)'); return; }
+  try{
+    const qname=Q.length?Q[Q.length-1].quarter:'';
+    const latestWeek={};
+    (P||[]).forEach(p=>{ if(!latestWeek[p.username]||p.week>latestWeek[p.username].week) latestWeek[p.username]=p; });
+    const lb=Q.filter(r=>r.quarter===qname).map(r=>{
+      const p=latestWeek[r.username]||{};
+      return {name:r.username, comp:+p.completion_pct||0, ontime:+p.ontime_pct||0,
+        vote:+p.votes||0, act:Math.min(100,(+p.messages||0)), bonus:+p.response_bonus||0, score:+r.avg_score||0,
+        points:+r.total_points||0};
+    }).sort((a,b)=>b.points-a.points);
+    paint({quarter:qname,leaderboard:lb,weeks:SAMPLE.weeks,trend:SAMPLE.trend,pending:[]},src);
+  }catch(e){ console.error(e); paint(SAMPLE,'● Sample data'); }
+}
+load();
+</script>
+</body>
+</html>

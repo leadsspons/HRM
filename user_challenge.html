@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emirard · Team Challenge</title>
+<style>
+  :root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--panel2:#eef2fa;--line:#e1e7f2;
+    --txt:#1c2335;--mut:#6b7592;--acc:#3b5bdb;--good:#10b981;--gold:#e0a400;--purple:#7c3aed;
+    --fire:#f97316;--blue:#3b82f6;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:22px}
+  .wrap{max-width:1180px;margin:0 auto}
+  nav{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+  nav a{font-size:12px;text-decoration:none;color:var(--mut);background:var(--panel);border:1px solid var(--line);padding:6px 11px;border-radius:8px}
+  nav a.on{color:#fff;background:var(--acc);border-color:var(--acc)}
+  .hero{background:linear-gradient(120deg,#3b5bdb,#7c3aed 60%,#a21caf);color:#fff;border-radius:18px;
+    padding:22px 24px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  .hero h1{font-size:23px;margin-bottom:4px}
+  .hero p{font-size:13px;opacity:.92}
+  .hero .q{font-size:12px;background:rgba(255,255,255,.18);padding:6px 13px;border-radius:999px;display:inline-block;margin-top:8px}
+  .hero .me{text-align:right}.hero .me .r{font-size:34px;font-weight:800;line-height:1}
+  .hero .me small{opacity:.85}
+  h2{font-size:16px;display:flex;align-items:center;gap:8px;margin:24px 0 12px}
+  h2.pod{color:var(--gold)} h2.lead{color:var(--purple)} h2.work{color:var(--good)} h2.feed{color:var(--fire)}
+  .podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:12px;align-items:end}
+  .pod{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px 14px;text-align:center;position:relative}
+  .pod.first{border-color:#f3d27a;box-shadow:0 6px 22px rgba(224,164,0,.18);padding-top:24px}
+  .medal{font-size:30px}
+  .av{width:54px;height:54px;border-radius:50%;margin:6px auto 8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:19px}
+  .pod .nm{font-weight:700}.pod .tm{font-size:11.5px;color:var(--mut)}
+  .pod .pts{font-size:22px;font-weight:800;color:var(--gold);margin-top:6px}
+  .badges{margin-top:6px;font-size:15px;letter-spacing:2px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:8px 18px}
+  .row{display:flex;align-items:center;gap:13px;padding:12px 4px;border-bottom:1px solid var(--line)}
+  .row:last-child{border:0}
+  .rk{width:26px;font-weight:800;color:var(--mut);text-align:center}
+  .av2{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;flex:0 0 auto}
+  .who{flex:1;min-width:0}
+  .who .nm{font-weight:700}.who .tm{font-size:11.5px;color:var(--mut)}
+  .bar{height:7px;background:var(--panel2);border-radius:99px;overflow:hidden;margin-top:5px;max-width:230px}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,#10b981,#34d399)}
+  .streak{font-size:12.5px;font-weight:700;color:var(--fire);white-space:nowrap}
+  .pts2{font-size:18px;font-weight:800;color:var(--gold);width:64px;text-align:right}
+  .bdg{font-size:15px;letter-spacing:1px;white-space:nowrap}
+  .work{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:13px}
+  .wcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px}
+  .wcard .hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .wcard .nm{font-weight:700}.wcard .cnt{font-size:11.5px;color:var(--mut)}
+  .task{font-size:12.5px;padding:6px 0;border-bottom:1px dashed var(--line);display:flex;gap:7px;align-items:center}
+  .task:last-child{border:0}
+  .dot{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+  .feed .item{display:flex;gap:11px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line)}
+  .feed .item:last-child{border:0}
+  .ftxt{flex:1;font-size:13px}.ftxt b{color:var(--txt)}
+  .ftag{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px}
+  .t-good{background:rgba(16,185,129,.15);color:#0a7f5d}.t-late{background:rgba(245,158,11,.18);color:#9a6700}
+  .fwhen{font-size:11.5px;color:var(--mut);white-space:nowrap}
+  .legend{font-size:12px;color:var(--mut);margin-top:10px}
+  .pill{font-size:12px;color:var(--mut);background:var(--panel);border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+  .toprow{display:flex;justify-content:space-between;align-items:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="dashboard.html">🏆 Challenge Leaderboard</a>
+    <a href="employee_tracker.html">📋 Employee Tracker</a>
+    <a href="user_challenge.html" class="on">🔥 Team Challenge</a>
+    <a href="admin.html">⚙️ Admin Console</a>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <h1>🔥 Team Challenge — Race to the Top</h1>
+      <p>Every completed task on time earns points. Keep your streak alive and climb the board!</p>
+      <span class="q" id="qLabel">Quarter 2026-Q2</span>
+    </div>
+    <div class="me"><small>You're ranked</small><div class="r" id="meRank">#2</div><small id="meGap">6 pts behind #1 👀</small></div>
+  </div>
+
+  <h2 class="pod">🥇 Podium</h2>
+  <div class="podium" id="podium"></div>
+
+  <h2 class="lead">📊 Full Leaderboard</h2>
+  <div class="card" id="board"></div>
+  <div class="legend">🔥 streak · 🎯 on-time master · 💬 great communicator · ⚡ fast responder · 🚀 most tasks · 🏅 top performer</div>
+
+  <h2 class="work">🗂️ What Everyone's Working On</h2>
+  <div class="work" id="work"></div>
+
+  <div class="toprow"><h2 class="feed">⚡ Live Activity</h2><span class="pill" id="srcPill">● sample</span></div>
+  <div class="card feed" id="feed"></div>
+</div>
+
+<script>
+const CONFIG={ sheetId:"", tabs:{Quarter:"Quarter",Tasks:"Tasks"} };
+const COLORS=["#3b5bdb","#10b981","#e0a400","#ef4444","#7c3aed","#f97316","#0ea5e9"];
+const initials=n=>n.split(/\s+/).map(x=>x[0]).join('').slice(0,2).toUpperCase();
+const colorFor=n=>COLORS[[...n].reduce((a,c)=>a+c.charCodeAt(0),0)%COLORS.length];
+
+const USERS=[
+  {name:"Sara K.",team:"Growth",points:64,streak:5,completion:96,ontime:94,badges:["🏅","🎯","💬"],
+   did:[["Ad creatives (3 variants)","good"],["Weekly KPI deck","good"],["Partner outreach list","good"],["Campaign QA","wip"]]},
+  {name:"John P.",team:"Ops",points:60,streak:4,completion:91,ontime:85,badges:["🚀","⚡"],
+   did:[["DB backup verification","good"],["On-call handover doc","good"],["Server migration plan","late"],["Cost report","wip"]]},
+  {name:"Mike R.",team:"Sales",points:48,streak:3,completion:88,ontime:96,badges:["🎯"],
+   did:[["Demo for Acme","good"],["Proposal v2","good"],["Pipeline review","good"]]},
+  {name:"Lina T.",team:"Growth",points:37,streak:2,completion:84,ontime:79,badges:["💬"],
+   did:[["Brand kit update","good"],["Newsletter draft","late"],["Social calendar","wip"]]},
+  {name:"Omar S.",team:"Ops",points:26,streak:2,completion:79,ontime:88,badges:["⚡"],
+   did:[["Onboarding email","good"],["Churn analysis","good"],["Support macros","wip"]]},
+  {name:"Dana W.",team:"Sales",points:16,streak:1,completion:73,ontime:70,badges:[],
+   did:[["Revenue report","good"],["Forecast model","good"]]},
+  {name:"Yuki H.",team:"Support",points:6,streak:1,completion:61,ontime:64,badges:[],
+   did:[["Bug triage","good"],["Release notes","wip"]]},
+];
+const FEED=[
+  ["Sara K.","Weekly KPI deck","good","2h ago"],
+  ["Mike R.","Proposal v2","good","3h ago"],
+  ["Omar S.","Churn analysis","good","4h ago"],
+  ["John P.","Server migration plan","late","5h ago"],
+  ["Dana W.","Revenue report","good","6h ago"],
+  ["Lina T.","Brand kit update","good","7h ago"],
+  ["Sara K.","Partner outreach list","good","yesterday"],
+];
+
+function render(users,feed){
+  users.sort((a,b)=>b.points-a.points);
+  // hero "you" = rank 2 demo
+  document.getElementById('qLabel').textContent='Quarter 2026-Q2';
+  // podium order: 2nd,1st,3rd
+  const order=[users[1],users[0],users[2]];
+  const medal=["🥈","🥇","🥉"];
+  document.getElementById('podium').innerHTML=order.map((u,i)=>{
+    const first=i===1;
+    return `<div class="pod${first?' first':''}">
+      <div class="medal">${medal[i]}</div>
+      <div class="av" style="background:${colorFor(u.name)}">${initials(u.name)}</div>
+      <div class="nm">${u.name}</div><div class="tm">${u.team}</div>
+      <div class="pts">${u.points}p</div>
+      <div class="badges">${u.badges.join('')}</div></div>`;
+  }).join('');
+
+  document.getElementById('board').innerHTML=users.map((u,i)=>`
+    <div class="row">
+      <div class="rk">${i+1}</div>
+      <div class="av2" style="background:${colorFor(u.name)}">${initials(u.name)}</div>
+      <div class="who"><div class="nm">${u.name} <span class="bdg">${u.badges.join('')}</span></div>
+        <div class="tm">${u.team} · ${u.completion}% completion</div>
+        <div class="bar"><i style="width:${u.completion}%"></i></div></div>
+      <div class="streak">🔥 ${u.streak}w</div>
+      <div class="pts2">${u.points}p</div>
+    </div>`).join('');
+
+  const dmap={good:'#10b981',late:'#f59e0b',wip:'#94a3b8'};
+  document.getElementById('work').innerHTML=users.map(u=>`
+    <div class="wcard"><div class="hd">
+      <div class="av2" style="background:${colorFor(u.name)}">${initials(u.name)}</div>
+      <div><div class="nm">${u.name}</div><div class="cnt">${u.did.length} items · ${u.team}</div></div></div>
+      ${u.did.map(([t,s])=>`<div class="task"><span class="dot" style="background:${dmap[s]}"></span>
+        ${t} ${s==='wip'?'<span class="cnt">· in progress</span>':s==='late'?'<span class="cnt">· late</span>':''}</div>`).join('')}
+    </div>`).join('');
+
+  document.getElementById('feed').innerHTML=feed.map(([n,t,s,w])=>`
+    <div class="item">
+      <div class="av2" style="background:${colorFor(n)}">${initials(n)}</div>
+      <div class="ftxt"><b>${n}</b> completed <b>${t}</b></div>
+      <span class="ftag ${s==='good'?'t-good':'t-late'}">${s==='good'?'✅ on-time':'🟠 late'}</span>
+      <span class="fwhen">${w}</span></div>`).join('');
+}
+
+async function gviz(id,tab){
+  const u=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
+  const t=await(await fetch(u)).text();
+  const j=JSON.parse(t.substring(t.indexOf('{'),t.lastIndexOf('}')+1));
+  const c=j.table.cols.map(x=>x.label||x.id);
+  return j.table.rows.map(r=>{const o={};(r.c||[]).forEach((cell,k)=>o[c[k]]=cell?cell.v:null);return o;});
+}
+async function apiRows(tab){
+  try{const r=await fetch('api.php?action=rows&tab='+encodeURIComponent(tab),{cache:'no-store'});
+    if(r.ok){const j=await r.json(); if(j&&j.ok) return j.rows;}}catch(e){}
+  return null;
+}
+async function load(){
+  let Q=await apiRows(CONFIG.tabs.Quarter), T=await apiRows(CONFIG.tabs.Tasks);
+  if(Q===null && CONFIG.sheetId){ try{Q=await gviz(CONFIG.sheetId,CONFIG.tabs.Quarter); T=await gviz(CONFIG.sheetId,CONFIG.tabs.Tasks);}catch(e){} }
+  if(!Q || !Q.length){render(USERS.slice(),FEED.slice());return;}
+  try{
+    const qn=Q.length?Q[Q.length-1].quarter:'';
+    const byUser={};
+    T.forEach(t=>{const u=t.assignee;if(!u)return;(byUser[u]=byUser[u]||[]).push(t);});
+    const users=Q.filter(r=>r.quarter===qn).map(r=>{
+      const ts=(byUser[r.username]||[]);
+      const did=ts.slice(-4).map(t=>[t.description,t.status==='done'?
+        (new Date(t.completed_at)<=new Date(t.due_at)?'good':'late'):'wip']);
+      return {name:r.username,team:'',points:+r.total_points||0,streak:1,
+        completion:Math.round(+r.avg_score||0),ontime:0,badges:[],did};
+    });
+    const feed=T.filter(t=>t.status==='done').slice(-7).reverse().map(t=>
+      [t.assignee,t.description,new Date(t.completed_at)<=new Date(t.due_at)?'good':'late','recent']);
+    document.getElementById('srcPill').textContent='● Live · Google Sheet linked';
+    render(users.length?users:USERS.slice(),feed.length?feed:FEED.slice());
+  }catch(e){console.error(e);render(USERS.slice(),FEED.slice());}
+}
+load();
+</script>
+</body>
+</html>

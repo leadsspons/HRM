@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workidoki · Help & Guides</title>
+<style>
+  :root{color-scheme:light;--bg:#f6f8fc;--panel:#fff;--line:#e1e7f2;--txt:#1c2335;--mut:#6b7592;
+    --acc:#3b5bdb;--good:#16a34a;--blue:#2563eb;--purple:#7c3aed;--amber:#d97706;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI','Malgun Gothic',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:28px}
+  .wrap{max-width:920px;margin:0 auto}
+  .top{display:flex;align-items:center;gap:13px;margin-bottom:4px}
+  .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#673de6,#9b6cff);
+    display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:20px}
+  h1{font-size:22px}.sub{color:var(--mut);font-size:13px;margin:2px 0 20px}
+  .home{font-size:12.5px;text-decoration:none;color:var(--acc);border:1px solid var(--line);padding:6px 11px;border-radius:8px;background:var(--panel);margin-left:auto}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 1px 3px rgba(20,30,60,.05)}
+  .card .ic{font-size:26px}
+  .card h2{font-size:16.5px;margin:9px 0 4px;display:flex;align-items:center;gap:8px}
+  .card p{color:var(--mut);font-size:12.5px;line-height:1.5;margin-bottom:13px}
+  .c1 h2{color:var(--good)} .c2 h2{color:var(--blue)} .c3 h2{color:var(--amber)}
+  .langs{display:flex;gap:8px}
+  .langs a{flex:1;text-align:center;text-decoration:none;font-size:13px;font-weight:600;
+    padding:9px 0;border-radius:9px;border:1px solid var(--line)}
+  .en{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .ko{background:#eef2fa;color:#33406a}
+  footer{color:var(--mut);font-size:12px;text-align:center;margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><img src="workidoki-logo.png" alt="Workidoki" style="height:30px;display:block">
+    <div><h1>Help &amp; Guides</h1><div class="sub" style="margin:0">Step-by-step setup &amp; server guides</div></div>
+    <a class="home" href="index.php">← Home</a></div>
+  <div class="sub"></div>
+
+  <div class="grid">
+    <div class="card c1">
+      <div class="ic">📘</div>
+      <h2>Bot Token &amp; Invite URL</h2>
+      <p>Get your BotFather token and a Telegram group invite link, step by step.</p>
+      <div class="langs"><a class="en" href="guide_en.html">English</a><a class="ko" href="guide_ko.html">한국어</a></div>
+    </div>
+    <div class="card c2">
+      <div class="ic">🔐</div>
+      <h2>FTP Sub-account</h2>
+      <p>Give a developer a temporary FTP login instead of your password — then delete it.</p>
+      <div class="langs"><a class="en" href="ftp_guide_en.html">English</a><a class="ko" href="ftp_guide_ko.html">한국어</a></div>
+    </div>
+    <div class="card c3">
+      <div class="ic">💾</div>
+      <h2>Server Backups</h2>
+      <p>Find, download and restore your Hostinger automatic backups (files &amp; database).</p>
+      <div class="langs"><a class="en" href="backup_guide_en.html">English</a><a class="ko" href="backup_guide_ko.html">한국어</a></div>
+    </div>
+  </div>
+
+  <footer>Workidoki HRM · serve this folder on your PHP host to publish these at your own URL</footer>
+</div>
+</body>
+</html>
